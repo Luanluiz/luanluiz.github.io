@@ -1,0 +1,27 @@
+.make-quitado {
+    background-color: lightgreen;
+}
+
+.make-vencido {
+    background-color: lightcoral;
+}
+
+.make-vencendo {
+    background-color: lightyellow;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+tr.mat-footer-row {
+    font-weight: bold;
+}
+
+.mat-table-sticky {
+    border-top: 1px solid #e0e0e0;
+}

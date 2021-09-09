@@ -1,0 +1,96 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">Contas a Pagar</h4>
+
+                        <div class="text-right">
+                            <button class="btn btn-success" [routerLink]="'/cadastros/contas-pagar/save/'">
+                                <span class="text">Incluir</span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <table mat-table [dataSource]="dataSource" style="width: 100%" class="mat-elevation-z8">
+
+                            <ng-container matColumnDef="nome" class="make-vencido">
+                                <th mat-header-cell *matHeaderCellDef> Fornecedor</th>
+                                <td mat-cell *matCellDef="let element"> {{element.nomeEntidade}} </td>
+                                <td mat-footer-cell *matFooterCellDef> Total</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="tipoDocumento">
+                                <th mat-header-cell *matHeaderCellDef>Tipo documento</th>
+                                <td mat-cell *matCellDef="let element"> {{element.tipoDocumento}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="documento">
+                                <th mat-header-cell *matHeaderCellDef>Documento</th>
+                                <td mat-cell *matCellDef="let element"> {{element.documento}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="emissao">
+                                <th mat-header-cell *matHeaderCellDef> Emissao</th>
+                                <td mat-cell *matCellDef="let element"> {{element.emissao | date:'shortDate'}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="vencimento">
+                                <th mat-header-cell *matHeaderCellDef> Vencimento</th>
+                                <td mat-cell *matCellDef="let element"> {{element.vencimento | date:'shortDate'}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="valor">
+                                <th mat-header-cell *matHeaderCellDef> Valor</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.valor | currency: 'BRL'}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                    {{getTotal() | currency}}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="status">
+                                <th mat-header-cell *matHeaderCellDef> Status</th>
+                                <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="acoes">
+                                <th mat-header-cell *matHeaderCellDef> Ações</th>
+                                <td mat-cell *matCellDef="let element" [width]="150">
+                                    <div class="example-button-row">
+                                        <button mat-icon-button color="warn" title="Apagar"
+                                                aria-label="Example icon-button with a heart icon"
+                                                (click)="excluir(element); $event.stopPropagation()">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                        <button mat-icon-button color="primary" title="Baixar"
+                                                aria-label="Example icon-button with a heart icon"
+                                                *ngIf="element.status === 'Aberto'"
+                                                (click)="baixar(element.id); $event.stopPropagation()">
+                                            <mat-icon>arrow_downward</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+                            <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumns;"
+                                [routerLink]="['/cadastros/contas-pagar/save/', row.id]"
+                                [ngClass]="{'make-vencido': vencido(row), 'make-quitado': quitado(row),
+                                'make-vencendo': vencendo(row)}"></tr>
+                            <!--                            <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>-->
+                        </table>
+
+                        <mat-paginator [pageSizeOptions]=" [5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
