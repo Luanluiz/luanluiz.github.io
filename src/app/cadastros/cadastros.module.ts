@@ -118,6 +118,7 @@ export const ROUTES: Routes = [
         FormsModule,
         ReactiveFormsModule,
         CurrencyMaskModule,
+        MatIconModule,
 
     ],
 
@@ -148,8 +149,6 @@ export const ROUTES: Routes = [
         ContasPagarGridComponent,
         ContasPagarCrudComponent,
         BaixaFinanceiroFormComponent,
-
-        MatIconModule,
     ],
 })
 export class CadastrosModule {

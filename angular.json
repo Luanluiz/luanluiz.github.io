@@ -35,7 +35,7 @@
               "node_modules/bootstrap-notify/bootstrap-notify.js",
               "node_modules/chartist/dist/chartist.js"
             ],
-            "allowedCommonJsDependencies" : [
+            "allowedCommonJsDependencies": [
               "rxjs/add/operator/filter",
               "jquery",
               "chartist"
@@ -115,6 +115,10 @@
             ],
             "exclude": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
     },

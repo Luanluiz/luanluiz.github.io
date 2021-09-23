@@ -50,6 +50,8 @@ registerLocaleData(localePt, 'pt');
             apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
         }),
         NgxSpinnerModule,
+        MatCardModule,
+        MatFormFieldModule,
     ],
     exports: [
         // MatToolbarModule,

@@ -68,7 +68,7 @@ export const routes: Routes = [
         MatTooltipModule,
         MatTableModule,
         MatPaginatorModule,
-        MatCardModule,
+        // MatCardModule,
         ChartsModule,
     ],
 
