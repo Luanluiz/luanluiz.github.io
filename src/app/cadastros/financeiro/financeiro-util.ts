@@ -2,7 +2,7 @@ import {TipoFiltroFinanceiro} from '../../enuns/tipo-filtro-financeiro';
 
 export class FinanceiroUtil {
 
-    public static getUrl(params): string {
+    public static getUrl(params, isReceber: boolean = true): string {
         let tipoFiltro = params['tipoFiltro'];
         if (tipoFiltro) {
             tipoFiltro = Number.parseInt(tipoFiltro);
@@ -18,7 +18,12 @@ export class FinanceiroUtil {
             case TipoFiltroFinanceiro.PAGAR_VENCENDO:
                 return 'pagar-vencendo';
             default:
-                return 'listreceber';
+                if (isReceber) {
+                    return 'listreceber';
+                } else {
+                    return 'listpagar';
+                }
+
         }
     }
 

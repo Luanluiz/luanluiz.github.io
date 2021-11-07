@@ -90,11 +90,13 @@
 
                                             <mat-form-field class="example-full-width">
                                                 <mat-select placeholder='Selecione um finalizador'
-                                                            [formControlName]="'formaPagamento'">
+                                                            [formControlName]="'meioPagamento'">
 
                                                     <mat-option [value]="'Dinheiro'">Dinheiro</mat-option>
                                                     <mat-option [value]="'Cheque'">Cheque</mat-option>
                                                     <mat-option [value]="'Cartão'">Cartão</mat-option>
+                                                    <mat-option [value]="'PIX'">PIX</mat-option>
+                                                    <mat-option [value]="'Boleto'">Boleto</mat-option>
 
                                                 </mat-select>
                                             </mat-form-field>

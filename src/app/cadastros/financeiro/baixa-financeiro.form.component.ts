@@ -73,13 +73,13 @@ export class BaixaFinanceiroFormComponent extends FormComponent implements OnIni
         this.addSubscription(this.getControl('valor')
             .subscribe((control) => control.setValidators([Validators.required, Validators.min(0.01)])));
 
-        this.addSubscription(this.getControl('formaPagamento')
+        this.addSubscription(this.getControl('meioPagamento')
             .subscribe((control) => control.setValidators([Validators.required, Validators.minLength(1)])))
 
     }
 
     baixar() {
-        this.formDocumento$
+        this.form$
             .pipe(
                 switchMap((form: FormGroup) => {
                     this.spinner.show();

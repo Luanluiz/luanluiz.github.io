@@ -78,7 +78,7 @@ export class ContasPagarGridComponent extends FormComponent implements OnInit, A
             .pipe(
                 switchMap((params) => {
 
-                    return this.http.get(`${LINK}financeiro/${FinanceiroUtil.getUrl(params)}`)
+                    return this.http.get(`${LINK}financeiro/${FinanceiroUtil.getUrl(params, false)}`)
                         .pipe(
                             map((pagar: Array<ContasPagarModel>) => (pagar))
                         )
