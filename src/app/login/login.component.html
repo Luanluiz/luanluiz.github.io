@@ -5,15 +5,15 @@
         <mat-card-title>Login</mat-card-title>
         <mat-card-content>
             <form [formGroup]="form$ | async">
-                <input type="text" matInput disabled>
+
                 <p>
+                    <input type="text" matInput  [hidden]="true">
                     <mat-form-field class="example-full-width">
                         <input type="text" matInput placeholder="CPF" formControlName="userName">
                     </mat-form-field>
                 </p>
 
                 <p>
-
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Senha" [type]="hide ? 'password' : 'text'"
                                [formControlName]="'password'">

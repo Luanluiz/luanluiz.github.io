@@ -10,20 +10,11 @@ import {ComponentsModule} from './components/components.module';
 
 import {AppComponent} from './app.component';
 
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {UserProfileComponent} from './user-profile/user-profile.component';
-import {TableListComponent} from './table-list/table-list.component';
-import {TypographyComponent} from './typography/typography.component';
-import {IconsComponent} from './icons/icons.component';
-import {MapsComponent} from './maps/maps.component';
-import {NotificationsComponent} from './notifications/notifications.component';
-import {UpgradeComponent} from './upgrade/upgrade.component';
 import {
     AgmCoreModule
 } from '@agm/core';
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
-import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
@@ -53,6 +44,8 @@ registerLocaleData(localePt, 'pt');
         MatCardModule,
         MatFormFieldModule,
         MatIconModule,
+        MatInputModule,
+        MatButtonModule
     ],
     exports: [
         // MatToolbarModule,
