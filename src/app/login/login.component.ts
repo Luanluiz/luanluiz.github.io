@@ -7,12 +7,13 @@ import {map} from 'rxjs/operators';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrls: ['login.component.css'],
+    styleUrls: ['login.component.scss'],
     templateUrl: 'login.component.html'
 })
 export class LoginComponent extends FormComponent implements OnInit {
 
     private formSubmitAttempt: boolean;
+    hide = true;
 
     constructor(private fb: FormBuilder, public authService: AuthService) {
         super();

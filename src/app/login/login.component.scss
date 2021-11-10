@@ -1,0 +1,33 @@
+.card-login {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    text-align: center;
+    mat-card {
+        width: 400px;
+        top: 30px;
+    }
+
+}
+
+.img {
+    background-image: url("../../assets/img/campo.jpg");
+    background-repeat: no-repeat;
+
+    .b-color {
+        background-color: rgba(0, 0, 0, 0.5);
+        max-height: 937px;
+        min-height: 937px;
+    }
+}
+
+.title {
+    text-transform: uppercase;
+    font-size: 26px;
+    color: red;
+    white-space: nowrap;
+    font-weight: 800;
+    line-height: 30px;
+    text-align: center;
+    display: block;
+}

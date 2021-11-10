@@ -33,7 +33,7 @@ import {AuthService} from './login/auth-service';
 import {LoginComponent} from './login/login.component';
 import {registerLocaleData} from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-import {ChartsModule} from 'ng2-charts';
+import {MatIconModule} from '@angular/material/icon';
 
 registerLocaleData(localePt, 'pt');
 
@@ -52,6 +52,7 @@ registerLocaleData(localePt, 'pt');
         NgxSpinnerModule,
         MatCardModule,
         MatFormFieldModule,
+        MatIconModule,
     ],
     exports: [
         // MatToolbarModule,
