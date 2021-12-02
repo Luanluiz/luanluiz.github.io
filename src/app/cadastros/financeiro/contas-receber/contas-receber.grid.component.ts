@@ -1,23 +1,23 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {HttpClient} from '@angular/common/http';
+import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {LINK} from '../../clientes/cliente.grid.component';
-import {map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import {ContasReceberModel} from './contas-receber.model';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormComponent} from '../../form.component';
-import {TipoFiltroFinanceiro} from '../../../enuns/tipo-filtro-financeiro';
-import NumberFormat = Intl.NumberFormat;
 import {FinanceiroUtil} from '../financeiro-util';
+import {GridComponent} from '../../grid.component';
+import {of} from 'rxjs'
+import {ToasterService} from '../../ToasterService';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['contas-receber.grid.component.css'],
     templateUrl: 'contas-receber.grid.component.html'
 })
-export class ContasReceberGridComponent extends FormComponent implements OnInit, AfterViewInit {
+export class ContasReceberGridComponent extends GridComponent implements OnInit, AfterViewInit {
 
     displayedColumns: string[] = ['nome', 'documento', 'tipoDocumento', 'emissao', 'vencimento', 'valor', 'status', 'acoes'];
     dataSource = new MatTableDataSource<ContasReceberModel>();
@@ -25,8 +25,8 @@ export class ContasReceberGridComponent extends FormComponent implements OnInit,
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(private http: HttpClient, private spinner: NgxSpinnerService, private router: Router,
-                private activatedRoute: ActivatedRoute) {
-        super();
+                private activatedRoute: ActivatedRoute, public mat: MatPaginatorIntl, public toaster: ToasterService) {
+        super(mat);
     }
 
     ngAfterViewInit() {
@@ -39,7 +39,14 @@ export class ContasReceberGridComponent extends FormComponent implements OnInit,
 
     public excluir(receber: ContasReceberModel) {
         this.http.post(`${LINK}financeiro/deletar`, receber)
-            .subscribe(() => {
+            .pipe(
+                catchError((error) => of(error))
+            )
+            .subscribe((error: HttpErrorResponse) => {
+                if (error) {
+                    this.toaster.warning(error.error.message)
+                    return;
+                }
                 setTimeout(() => this.carregarDados());
             });
     }
@@ -69,8 +76,7 @@ export class ContasReceberGridComponent extends FormComponent implements OnInit,
     }
 
     baixar(id: number) {
-        const param = {tipo: 'P'};
-        this.router.navigateByUrl(`/cadastros/contas-receber/baixa/${id}`, {queryParams: param});
+        this.router.navigateByUrl(`/cadastros/contas-receber/baixa/${id}`);
     }
 
     private carregarDados() {

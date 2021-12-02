@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import * as Chartist from 'chartist';
 import {FormComponent} from '../cadastros/form.component';
 import {HttpClient} from '@angular/common/http';
@@ -9,6 +9,8 @@ import {BehaviorSubject} from 'rxjs';
 import {Router} from '@angular/router';
 import {TipoFiltroFinanceiro} from '../enuns/tipo-filtro-financeiro';
 import {TipoFinanceiro} from '../enuns/tipo-financeiro';
+import {Chart} from 'chart.js';
+import {DashboardCaixa} from './dashboard-caixa';
 
 @Component({
     selector: 'app-dashboard',
@@ -22,6 +24,7 @@ export class DashboardComponent extends FormComponent implements OnInit {
     public pagarVencido$: BehaviorSubject<number>;
     public pagarVencendo$: BehaviorSubject<number>;
     public totalSocios$: BehaviorSubject<number>;
+    public saldo$: BehaviorSubject<number>;
 
 
     // public barChartOptions: ChartOptions = {
@@ -45,6 +48,9 @@ export class DashboardComponent extends FormComponent implements OnInit {
     //     {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
     // ];
 
+    @ViewChild('bar', {static: true}) public elementBar: ElementRef
+    @ViewChild('line', {static: true}) public elementLine: ElementRef
+
     constructor(private http: HttpClient, private router: Router) {
         super();
 
@@ -53,6 +59,7 @@ export class DashboardComponent extends FormComponent implements OnInit {
         this.pagarVencendo$ = new BehaviorSubject<number>(0.00);
         this.pagarVencido$ = new BehaviorSubject<number>(0.00);
         this.totalSocios$ = new BehaviorSubject<number>(0);
+        this.saldo$ = new BehaviorSubject<number>(0);
     }
 
     startAnimationForLineChart(chart) {
@@ -118,6 +125,88 @@ export class DashboardComponent extends FormComponent implements OnInit {
         this.carregarDados()
         this.carregarTotalSocio();
 
+
+        this.addSubscription(this.http.get(`${LINK}caixa/dashboard-caixa`)
+            .pipe(
+                map((dados: DashboardCaixa) => (dados)),
+            )
+            .subscribe((dados) => {
+
+
+                    const i = new Chart(this.elementBar.nativeElement, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                            datasets: [
+                                {
+                                    label: 'Entrada',
+                                    data: [dados.receber[1], dados.receber[2], dados.receber[3], dados.receber[4], dados.receber[5],
+                                        dados.receber[6], dados.receber[7], dados.receber[8], dados.receber[9], dados.receber[10],
+                                        dados.receber[11], dados.receber[12], dados.receber[13]],
+                                    backgroundColor: 'rgb(75,175,80,0.7)',
+                                },
+                                {
+                                    label: 'Saída',
+                                    data: [dados.pagar[1], dados.pagar[2], dados.pagar[3], dados.pagar[4], dados.pagar[5],
+                                        dados.pagar[6], dados.pagar[7], dados.pagar[8], dados.pagar[9], dados.pagar[10],
+                                        dados.pagar[11], dados.pagar[12], dados.pagar[13]],
+                                    backgroundColor: 'rgb(244,67,54,0.7)',
+                                }
+                            ]
+                        },
+
+                        options: {
+                            scales: {
+                                x: {
+                                    grid: {
+                                        display: false,
+                                    }
+                                }
+                            }
+
+                        }
+
+                    });
+
+                    const line = new Chart(this.elementLine.nativeElement, {
+                        type: 'line',
+                        data: {
+                            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                            datasets: [
+                                {
+                                    // label: 'Saldo em caixa',
+                                    data: [dados.saldo[1], dados.saldo[2], dados.saldo[3], dados.saldo[4], dados.saldo[5],
+                                        dados.saldo[6], dados.saldo[7], dados.saldo[8], dados.saldo[9], dados.saldo[10],
+                                        dados.saldo[11], dados.saldo[12], dados.saldo[13]],
+                                    backgroundColor: 'rgb(75,175,80)',
+                                },
+                            ]
+                        },
+
+                        options: {
+
+                           plugins: {
+                               legend: {
+                                   display: false,
+                               }
+                           },
+
+                            scales: {
+                                x: {
+                                    grid: {
+                                        display: false,
+                                    }
+                                }
+                            }
+
+                        }
+
+                    });
+                }
+            )
+        );
+
+
         /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 
         const dataDailySalesChart: any = {
@@ -169,11 +258,14 @@ export class DashboardComponent extends FormComponent implements OnInit {
         /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
 
         const datawebsiteViewsChart = {
-            labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
             series: [
-                [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 950]
+                [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 950],
+                [300, 200, 520, 150, 120, 453, 326, 434, 568, 610, 756, 950],
+                // [300, 200, 520, 150, 120, 453, 326, 434, 568, 610, 756, 950],
+            ],
 
-            ]
+
         };
         const optionswebsiteViewsChart = {
             axisX: {
@@ -181,7 +273,8 @@ export class DashboardComponent extends FormComponent implements OnInit {
             },
             low: 0,
             // high: 1600,
-            chartPadding: {top: 0, right: 0, bottom: 0, left: 0}
+            chartPadding: {top: 0, right: 0, bottom: 0, left: 0},
+            // seriesBarDistance: 10,
         };
         const responsiveOptions: any[] = [
             ['screen and (max-width: 640px)', {
@@ -198,7 +291,7 @@ export class DashboardComponent extends FormComponent implements OnInit {
             new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
 
         // start animation for the Emails Subscription Chart
-        this.startAnimationForBarChart(websiteViewsChart);
+        // this.startAnimationForBarChart(websiteViewsChart);
     }
 
     public acessarVencidoReceber() {
@@ -215,6 +308,10 @@ export class DashboardComponent extends FormComponent implements OnInit {
 
     public acessarVencendoPagar() {
         this.acessarReceber(TipoFiltroFinanceiro.PAGAR_VENCENDO, TipoFinanceiro.PAGAR);
+    }
+
+    public acessarCaxia() {
+        this.router.navigate([`/cadastros/caixa`]);
     }
 
     public carregarSocios() {
@@ -235,6 +332,12 @@ export class DashboardComponent extends FormComponent implements OnInit {
                 this.pagarVencendo$.next(dados.valorPagarVencendo);
 
             }))
+
+        this.http.get(`${LINK}caixa/saldo`)
+            .pipe(
+                map((saldo: number) => saldo)
+            )
+            .subscribe(this.saldo$);
     }
 
     private carregarTotalSocio() {

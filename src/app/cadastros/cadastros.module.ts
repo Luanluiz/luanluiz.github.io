@@ -24,7 +24,13 @@ import {CurrencyMaskModule} from 'ng2-currency-mask';
 import localePt from '@angular/common/locales/pt';
 import {ContasPagarGridComponent} from './financeiro/contas-pagar/contas-pagar.grid.component';
 import {ContasPagarCrudComponent} from './financeiro/contas-pagar/contas-pagar.crud.component';
-import {BaixaFinanceiroFormComponent} from './financeiro/baixa-financeiro.form.component';
+import {BaixaFinanceiroFormComponentDirective} from './financeiro/baixa-financeiro-form-component.directive';
+import {CaixaGridComponent} from './caixas/caixa.grid.component';
+import {CaixaFormComponent} from './caixas/caixa.form.component';
+import {ContratoGridComponent} from './contratos/contrato.grid.component';
+import {ContratoCrudComponent} from './contratos/contrato.crud.component';
+import {BaixaContasPagarComponent} from './financeiro/baixa-contas-pagar.component';
+import {BaixaContasReceberComponent} from './financeiro/baixa-contas-receber.component';
 
 export const ROUTES: Routes = [
 
@@ -85,7 +91,7 @@ export const ROUTES: Routes = [
 
     {
         path: 'contas-receber/baixa/:id',
-        component: BaixaFinanceiroFormComponent,
+        component: BaixaContasReceberComponent,
     },
 
     {
@@ -99,6 +105,31 @@ export const ROUTES: Routes = [
     {
         path: 'contas-pagar/save/:id',
         component: ContasPagarCrudComponent,
+    },
+    {
+        path: 'contas-pagar/baixa/:id',
+        component: BaixaContasPagarComponent,
+    },
+
+    {
+        path: 'caixa',
+        component: CaixaGridComponent,
+    },
+    {
+        path: 'caixa/save/:id',
+        component: CaixaFormComponent,
+    },
+    {
+        path: 'contratos',
+        component: ContratoGridComponent
+    },
+    {
+        path: 'contratos/save',
+        component: ContratoCrudComponent,
+    },
+    {
+        path: 'contratos/save/:id',
+        component: ContratoCrudComponent,
     },
 ]
 
@@ -133,7 +164,12 @@ export const ROUTES: Routes = [
         ContasReceberCrudComponent,
         ContasPagarGridComponent,
         ContasPagarCrudComponent,
-        BaixaFinanceiroFormComponent,
+        BaixaContasPagarComponent,
+        BaixaContasReceberComponent,
+        CaixaGridComponent,
+        CaixaFormComponent,
+        ContratoGridComponent,
+        ContratoCrudComponent,
 
     ],
 
@@ -148,7 +184,12 @@ export const ROUTES: Routes = [
         ContasReceberCrudComponent,
         ContasPagarGridComponent,
         ContasPagarCrudComponent,
-        BaixaFinanceiroFormComponent,
+        BaixaContasPagarComponent,
+        BaixaContasReceberComponent,
+        CaixaGridComponent,
+        CaixaFormComponent,
+        ContratoGridComponent,
+        ContratoCrudComponent,
     ],
 })
 export class CadastrosModule {

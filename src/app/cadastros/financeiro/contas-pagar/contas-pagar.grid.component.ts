@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
 import {HttpClient} from '@angular/common/http';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {LINK} from '../../clientes/cliente.grid.component';
@@ -10,13 +10,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FinanceiroUtil} from '../financeiro-util';
 import {ContasReceberModel} from '../contas-receber/contas-receber.model';
 import {FormComponent} from '../../form.component';
+import {GridComponent} from '../../grid.component';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['contas-pagar.grid.component.css'],
     templateUrl: 'contas-pagar.grid.component.html'
 })
-export class ContasPagarGridComponent extends FormComponent implements OnInit, AfterViewInit {
+export class ContasPagarGridComponent extends GridComponent implements OnInit, AfterViewInit {
 
     displayedColumns: string[] = ['nome', 'documento', 'tipoDocumento', 'emissao', 'vencimento', 'valor', 'status', 'acoes'];
     dataSource = new MatTableDataSource<ContasPagarModel>();
@@ -24,8 +25,8 @@ export class ContasPagarGridComponent extends FormComponent implements OnInit, A
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(private http: HttpClient, private spinner: NgxSpinnerService, private router: Router,
-                private activatedRoute: ActivatedRoute) {
-        super();
+                private activatedRoute: ActivatedRoute, public mat: MatPaginatorIntl) {
+        super(mat);
     }
 
     ngAfterViewInit() {
@@ -59,8 +60,7 @@ export class ContasPagarGridComponent extends FormComponent implements OnInit, A
     }
 
     baixar(id: number) {
-        const param = {tipo: 'R'};
-        this.router.navigateByUrl(`/cadastros/contas-receber/baixa/${id}`, {queryParams: param});
+        this.router.navigateByUrl(`/cadastros/contas-pagar/baixa/${id}`);
     }
 
     public getTotal() {

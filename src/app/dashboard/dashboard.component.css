@@ -1,0 +1,10 @@
+.ct-series-a .ct-bar {
+    /* Colour of your bars */
+    stroke:  #be1e2d!important;
+    stroke-width: 30!important;
+}
+.ct-series-b .ct-bar {
+    /* Colour of your bars */
+    stroke:  #00a79d!important;
+    stroke-width: 30!important;
+}

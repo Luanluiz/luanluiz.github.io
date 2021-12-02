@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
 import {ClienteModel} from './cliente.model';
 import {HttpClient} from '@angular/common/http';
 import {map, switchMap} from 'rxjs/operators';
@@ -10,6 +10,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {BehaviorSubject} from 'rxjs';
 import {FormComponent} from '../form.component';
 import {ActivatedRoute} from '@angular/router';
+import {GridComponent} from '../grid.component';
 
 export const LINK = environment.apiUrl;
 
@@ -18,7 +19,7 @@ export const LINK = environment.apiUrl;
     templateUrl: 'cliente.grid.component.html',
     styleUrls: ['cliente.grid.component.css']
 })
-export class ClienteGridComponent extends FormComponent implements OnInit, AfterViewInit {
+export class ClienteGridComponent extends GridComponent implements OnInit, AfterViewInit {
 
     public titulo$: BehaviorSubject<String>;
 
@@ -27,8 +28,9 @@ export class ClienteGridComponent extends FormComponent implements OnInit, After
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    constructor(private http: HttpClient, private spinner: NgxSpinnerService, private activatedRouter: ActivatedRoute) {
-        super();
+    constructor(private http: HttpClient, private spinner: NgxSpinnerService, private activatedRouter: ActivatedRoute,
+                public mat: MatPaginatorIntl) {
+        super(mat);
         this.titulo$ = new BehaviorSubject<String>('Cadastro de Clientes');
     }
 
@@ -49,7 +51,6 @@ export class ClienteGridComponent extends FormComponent implements OnInit, After
 
     private carregarDados() {
         this.spinner.show();
-        this.addSubscription(this.activatedRouter.queryParams.subscribe((valor) => console.log(valor)));
 
         this.addSubscription(this.activatedRouter.queryParams
             .pipe(

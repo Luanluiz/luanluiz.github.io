@@ -24,13 +24,15 @@ export const ROUTES: RouteInfo[] = [
                 {path: 'cadastros/clientes', title: 'Clientes', icon: 'group_add'},
                 {path: 'cadastros/fornecedor', title: 'Fornecedores', icon: 'local_shipping'},
                 {path: 'cadastros/usuario', title: 'Usuários', icon: 'person'},
+                {path: 'cadastros/contratos', title: 'Contratos', icon: 'gavel'},
             ]
     },
     {
         title: 'Financeiro', icon: 'attach_money', subMenu:
             [
-                {path: 'cadastros/contas-receber', title: 'Contas a receber', icon: 'monetization_on'},
-                {path: 'cadastros/contas-pagar', title: 'Contas a pagar', icon: 'monetization_on'},
+                {path: 'cadastros/contas-receber', title: 'Contas a receber', icon: 'price_check'},
+                {path: 'cadastros/contas-pagar', title: 'Contas a pagar', icon: 'money_off'},
+                {path: 'cadastros/caixa', title: 'Caixa', icon: 'point_of_sale'},
             ]
     }
 

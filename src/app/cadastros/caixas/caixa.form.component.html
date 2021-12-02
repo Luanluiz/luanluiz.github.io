@@ -1,0 +1,77 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Caixa</h4>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="form$ | async">
+
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <mat-label>Meio de pagamento</mat-label>
+
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [formControlName]="'meioPagamento'">
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div class="col-md-3">
+
+                                    <mat-label>Data</mat-label>
+
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [formControlName]="'data'" type="date">
+                                    </mat-form-field>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <mat-label>Histórico</mat-label>
+
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [formControlName]="'historico'">
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+
+                                    <mat-label>Valor</mat-label>
+
+                                    <mat-form-field class="example-full-width" *ngIf="entrada$ | async">
+                                        <input matInput class="example-right-align"                                                currencyMask [formControlName]="'entrada'"
+                                               [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="example-full-width" *ngIf="!(entrada$ | async)">
+                                        <input matInput class="example-right-align"
+                                               currencyMask [formControlName]="'saida'"
+                                               [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                    </mat-form-field>
+
+                                </div>
+
+                            </div>
+
+
+                            <button mat-raised-button type="button" class="btn btn-secondary pull-right"
+                                    [routerLink]="'/cadastros/caixa'">
+                                Voltar
+                            </button>
+
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

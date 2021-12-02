@@ -37,10 +37,10 @@ export abstract class FormComponent implements OnDestroy {
     }
 
     public getValueChanges(controlName: string,
-                              form$: BehaviorSubject<FormGroup> = this.form$): Observable<any> {
+                           form$: BehaviorSubject<FormGroup> = this.form$): Observable<any> {
         const control: AbstractControl = form$.getValue().get(controlName);
         if (!control) {
-            throw new Error("Campo não existe: " + controlName);
+            throw new Error('Campo não existe: ' + controlName);
         }
         return control.valueChanges;
     }

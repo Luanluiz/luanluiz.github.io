@@ -25,6 +25,7 @@ import {LoginComponent} from './login/login.component';
 import {registerLocaleData} from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import {MatIconModule} from '@angular/material/icon';
+import {ToasterService} from './cadastros/ToasterService';
 
 registerLocaleData(localePt, 'pt');
 
@@ -45,7 +46,7 @@ registerLocaleData(localePt, 'pt');
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
-        MatButtonModule
+        MatButtonModule,
     ],
     exports: [
         // MatToolbarModule,
@@ -64,6 +65,7 @@ registerLocaleData(localePt, 'pt');
     ],
 
     providers: [
+        ToasterService,
         AuthGuard,
         AuthService,
         {

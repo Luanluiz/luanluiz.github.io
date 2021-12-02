@@ -1,35 +1,33 @@
 import {FormComponent} from '../form.component';
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Directive, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {BaixaFinanceiroModel} from './baixa-financeiro.model';
-import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {FinanceiroModel} from './financeiro.model';
 import {LINK} from '../clientes/cliente.grid.component';
 import {ClienteModel} from '../clientes/cliente.model';
+import {ToasterService} from '../ToasterService';
 
 
-@Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: 'baixa-financeiro.form.component.html',
-})
-export class BaixaFinanceiroFormComponent extends FormComponent implements OnInit {
+@Directive()
+export abstract class BaixaFinanceiroFormComponentDirective extends FormComponent implements OnInit {
 
     public formDocumento$: BehaviorSubject<FormGroup>;
     public cliente$: Observable<Array<ClienteModel>>;
     public idFinanceiro: number;
     public tipoFinanceiro: string;
 
-    constructor(public formBuilder: FormBuilder, public activatedRoute: ActivatedRoute, private spinner: NgxSpinnerService,
-                private http: HttpClient, private router: Router) {
+    protected constructor(public formBuilder: FormBuilder, public activatedRoute: ActivatedRoute, public spinner: NgxSpinnerService,
+                          public tipo, public http: HttpClient, public router: Router, public toaster: ToasterService) {
         super();
         this.form$ = new BehaviorSubject<FormGroup>(this.formBuilder.group(new BaixaFinanceiroModel()));
         this.formDocumento$ = new BehaviorSubject<FormGroup>(this.formBuilder.group(new FinanceiroModel()));
         this.idFinanceiro = 0;
-        this.tipoFinanceiro = '';
+        this.tipoFinanceiro = tipo;
         this.cliente$ = this.http.get<ClienteModel[]>(`${LINK}entidades/listEntidades`)
             .pipe(map((dados) => dados));
     }
@@ -54,7 +52,6 @@ export class BaixaFinanceiroFormComponent extends FormComponent implements OnIni
                 switchMap((obj: { params: Params, form: FormGroup }) => {
                     this.spinner.show();
                     this.idFinanceiro = +obj.params[`id`];
-                    this.tipoFinanceiro = obj.params[`tipo`];
 
                     return this.http.get(`${LINK}financeiro/financeiro/${obj.params[`id`]}`)
                         .pipe(map((dado) => ({dado, form: obj.form})));
@@ -86,10 +83,17 @@ export class BaixaFinanceiroFormComponent extends FormComponent implements OnIni
                     const financeiro: BaixaFinanceiroModel = form.getRawValue();
                     financeiro.idFinanceiro = this.idFinanceiro;
                     return this.http.post(`${LINK}baixa/salvar`, financeiro)
-                        .pipe(map((f) => (f)));
+                        .pipe(
+                            map((f) => (f)),
+                            catchError((error) => of({error}))
+                        );
                 }))
-            .subscribe((financeiro) => {
+            .subscribe((obj: { f?: FinanceiroModel, error?: HttpErrorResponse }) => {
                 this.spinner.hide();
+                if (obj.error) {
+                    this.toaster.error(obj.error.error.message);
+                    return;
+                }
                 this.router.navigateByUrl(this.tipoFinanceiro === 'P' ? '/cadastros/contas-pagar' : '/cadastros/contas-receber')
             });
     }

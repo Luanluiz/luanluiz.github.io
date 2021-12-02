@@ -1,25 +1,27 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
 import {HttpClient} from '@angular/common/http';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {map} from 'rxjs/operators';
 import {LINK} from '../clientes/cliente.grid.component';
 import {UsuarioModel} from './usuario.model';
+import {GridComponent} from '../grid.component';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['usuario.grid.component.css'],
     templateUrl: 'usuario.grid.component.html',
 })
-export class UsuarioGridComponent implements OnInit, AfterViewInit {
+export class UsuarioGridComponent extends GridComponent implements OnInit, AfterViewInit {
 
     displayedColumns: string[] = ['id', 'nome', 'email', 'usuario', 'acoes'];
     dataSource = new MatTableDataSource<UsuarioModel>();
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    constructor(private http: HttpClient, private spinner: NgxSpinnerService) {
+    constructor(private http: HttpClient, private spinner: NgxSpinnerService, public mat: MatPaginatorIntl) {
+        super(mat);
     }
 
     ngAfterViewInit() {

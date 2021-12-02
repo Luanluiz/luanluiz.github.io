@@ -1,0 +1,86 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Gerenciamento de contrato</h4>
+                        <!--                        <p class="card-category">Complete your profile</p>-->
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="form$ | async">
+
+                            <div class="row">
+                                <div class="col-md-3">
+
+                                    <mat-form-field class="example-full-width">
+
+                                        <input matInput placeholder="Código" [formControlName]="'id'">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <mat-form-field class="example-full-width">
+                                        <mat-select placeholder='Selecione um cliente'
+                                                    [formControlName]="'nomeEntidade'">
+                                            <mat-option *ngFor="let forn of cliente$ | async"
+                                                        [value]="forn.nome">{{forn.nome}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </div>
+
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Início" [formControlName]="'dataInicio'"
+                                               type="date">
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Tempo de contrato(Mês)" [formControlName]="'tempo'"
+                                               type="number">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Dia vencimento" [formControlName]="'diaVencimento'"
+                                               type="number">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="example-right-align"
+                                               currencyMask [formControlName]="'valor'"
+                                               [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+
+                            <button mat-raised-button type="button" class="btn btn-secondary pull-right"
+                                    [routerLink]="'/cadastros/contratos'">
+                                Cancelar
+                            </button>
+
+                            <button mat-button type="submit" class="btn btn-success pull-right" (click)="gravar()"
+                                    [disabled]="!((form$ | async).valid) || disableSubmit">Gravar
+                            </button>
+
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
