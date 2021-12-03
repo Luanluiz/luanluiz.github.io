@@ -86,5 +86,8 @@ export class FornecedorCrudComponent extends FormComponent implements OnInit {
 
         this.addSubscription(this.getControl('fornecedor')
             .subscribe((control) => control.disable()));
+
+        this.addSubscription(this.getControl('socio')
+            .subscribe((control) => control.disable()));
     }
 }

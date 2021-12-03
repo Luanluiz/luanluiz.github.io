@@ -86,5 +86,8 @@ export class ClienteCrudComponent extends FormComponent implements OnInit {
 
         this.addSubscription(this.getControl('cliente')
             .subscribe((control) => control.disable()));
+
+        this.addSubscription(this.getControl('socio')
+            .subscribe((control) => control.disable()));
     }
 }
