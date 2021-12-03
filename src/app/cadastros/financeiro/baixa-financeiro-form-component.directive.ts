@@ -90,7 +90,7 @@ export abstract class BaixaFinanceiroFormComponentDirective extends FormComponen
                 }))
             .subscribe((obj: { f?: FinanceiroModel, error?: HttpErrorResponse }) => {
                 this.spinner.hide();
-                if (obj.error) {
+                if (obj && obj.error) {
                     this.toaster.error(obj.error.error.message);
                     return;
                 }
